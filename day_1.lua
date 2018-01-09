@@ -23,7 +23,7 @@ local is_python = false
 --- printing
 -- this displays something to the user, very useful for debugging
 print('this text will be displayed')
-print(any value works)
+print("don't forget your quotes, though")
 
 --- if statements
 if my_variable == 2 then
