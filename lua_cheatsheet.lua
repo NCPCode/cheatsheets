@@ -49,23 +49,33 @@ print(3) -- works with any value
 ------------------------------------------------------------------------
 ---- number operations
 ------------------------------------------------------------------------
-print(2 + 2) -- 4, add
-print(2 - 2) -- 0, subtract
-print(2 * 2) -- 4, multiply
-print(2 / 2) -- 1, divide
-print(2 ^ 2) -- 4, raise to the power of
-print(2 % 2) -- 0, modulo
+2 + 2 -- 4, add
+2 - 2 -- 0, subtract
+2 * 2 -- 4, multiply
+2 / 2 -- 1, divide
+2 ^ 2 -- 4, raise to the power of
+2 % 2 -- 0, modulo
+
+
+------------------------------------------------------------------------
+---- string operations
+------------------------------------------------------------------------
+'hello ' .. 'world' -- hello world, string concatination
+string.len('abc') -- 3, string length
+string.lower('ABC') -- abc, convert all string to lowercase
+string.upper('abc') -- ABC, convert all string to uppercase
+string.reverse('abc') -- cba, reverse a string
 
 
 ------------------------------------------------------------------------
 ---- boolean operations
 ------------------------------------------------------------------------
-print(true == true) -- true, equality
-print(true ~= false) -- true, non-equality
-print(2 < 2) -- false, less than
-print(2 > 2) -- false, greater than
-print(2 <= 2) -- true, less than or equal to
-print(2 >= 2) -- true, greater than or equal to
+true == true -- true, equality
+true ~= false -- true, non-equality
+2 < 2 -- false, less than
+2 > 2 -- false, greater than
+2 <= 2 -- true, less than or equal to
+2 >= 2 -- true, greater than or equal to
 
 
 ------------------------------------------------------------------------
@@ -73,10 +83,10 @@ print(2 >= 2) -- true, greater than or equal to
 ------------------------------------------------------------------------
 -- a group of code in between a 'do' and 'end'
 do
-  print('I am in a block')
+  -- this is in a block
   do
     do
-      print('I am in a very nested block')
+      -- this is in a very nested block
     end
   end
 end
@@ -167,3 +177,12 @@ favoriteFruit[# + 1] = 'cherry' -- favoriteFruit is now { 'orange', 'banana', 't
 --- removing
 -- table.remove(table, index)
 table.remove(favoriteFruit, 1) -- favoriteFruit is now { 'banana', 'tomato', 'cherry' }
+
+--- inserting
+-- table.insert(table, index, value)
+table.insert(favoriteFruit, 2, 'grape') -- favoriteFruit is now { 'banana', 'grape', 'tomato', 'cherry' }
+
+--- concatinating: combine all of the elements of the table into a string
+-- table.concat(table, seperator)
+table.concat(favoriteFruit, ' yes! ') -- this returns 'banana yes! grape yes! tomato yes! cherry'
+-- notice how this is the only operation that returns a value - all of the other operations modify the table but don't return anything
