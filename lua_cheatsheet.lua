@@ -1,4 +1,12 @@
 ------------------------------------------------------------------------
+---- useful links
+------------------------------------------------------------------------
+-- lua style guide: http://lua-users.org/wiki/LuaStyleGuide
+-- condensed cheatsheet: http://lua-users.org/files/wiki_insecure/users/thomasl/luarefv51.pdf
+-- lua learnxinyminutes: http://lua-users.org/files/wiki_insecure/users/thomasl/luarefv51.pdf
+
+
+------------------------------------------------------------------------
 ---- comments
 ------------------------------------------------------------------------
 -- single-line
@@ -27,8 +35,8 @@ local number2 = 0.3
 local string1 = 'place text in single quotes'
 local string2 = "if you have 'single quotes' in your text, use double quotes"
 -- booleans
-local is_lua = true
-local is_python = false
+local isLua = true
+local isPython = false
 
 
 ------------------------------------------------------------------------
@@ -107,3 +115,55 @@ local number = 100
 while number != 1 do
   number = number - 1
 end
+
+
+------------------------------------------------------------------------
+---- functions
+------------------------------------------------------------------------
+-- a block that you can run from anywhere
+--- declare
+function myFunction()
+  print('I have been run!')
+end
+--- run
+myFunction() -- I have been run!
+
+
+--- parameters
+-- you can give additional information to a function
+function fancyPrint(string) -- 'string' is now a local variable
+  print('!!!' + string + '!!!')
+end
+
+fancyPrint('what a cool thing') -- !!!what a cool thing!!!
+
+
+--- return
+-- you can also pass information out of a function
+function fancyModify(string)
+  return '!!!' + string + '!!!'
+end
+
+local result = fancyModify('boring string')
+print(result) -- !!!boring string!!!
+
+
+------------------------------------------------------------------------
+---- tables
+------------------------------------------------------------------------
+--- accessing
+-- a way to store multiple values
+local favoriteFruit = { 'apple', 'banana', 'tomato' }
+-- access an item using its position in the table
+print(favoriteFruit[1]) -- apple
+favoriteFruit[1] = 'orange' -- favoriteFruit is now { 'orange', 'banana', 'tomato' }
+
+--- adding
+-- find the length of the table using #
+print(#favoriteFruit) -- 3
+-- use this to add to the table
+favoriteFruit[# + 1] = 'cherry' -- favoriteFruit is now { 'orange', 'banana', 'tomato', 'cherry' }
+
+--- removing
+-- table.remove(table, index)
+table.remove(favoriteFruit, 1) -- favoriteFruit is now { 'banana', 'tomato', 'cherry' }
