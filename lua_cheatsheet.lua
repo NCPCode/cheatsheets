@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------
 -- lua style guide: http://lua-users.org/wiki/LuaStyleGuide
 -- condensed cheatsheet: http://lua-users.org/files/wiki_insecure/users/thomasl/luarefv51.pdf
--- lua learnxinyminutes: http://lua-users.org/files/wiki_insecure/users/thomasl/luarefv51.pdf
+-- lua learnxinyminutes: https://learnxinyminutes.com/docs/lua
 
 
 ------------------------------------------------------------------------
