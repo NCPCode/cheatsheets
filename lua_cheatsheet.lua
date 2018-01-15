@@ -159,11 +159,26 @@ print(result) -- !!!boring string!!!
 
 
 ------------------------------------------------------------------------
+---- scope and nil
+------------------------------------------------------------------------
+-- any local variable declared in a scope cannot be used
+-- any variable that hasn't been declared is nil
+print(new_variable == nil) -- true
+-- you can also assign nil to a variable to 'undeclare '
+
+
+------------------------------------------------------------------------
 ---- tables
 ------------------------------------------------------------------------
---- accessing
--- a way to store multiple values
+-- tables are Lua's only collection type
+
+-----------------------------------
+-- arrays
+-----------------------------------
+-- they can be used as arrays, or ordered lists of values
 local favoriteFruit = { 'apple', 'banana', 'tomato' }
+
+--- accessing
 -- access an item using its position in the table
 print(favoriteFruit[1]) -- apple
 favoriteFruit[1] = 'orange' -- favoriteFruit is now { 'orange', 'banana', 'tomato' }
@@ -182,7 +197,29 @@ table.remove(favoriteFruit, 1) -- favoriteFruit is now { 'banana', 'tomato', 'ch
 -- table.insert(table, index, value)
 table.insert(favoriteFruit, 2, 'grape') -- favoriteFruit is now { 'banana', 'grape', 'tomato', 'cherry' }
 
---- concatinating: combine all of the elements of the table into a string
+--- concatinating: combining all of the elements of the table into a string
 -- table.concat(table, seperator)
 table.concat(favoriteFruit, ' yes! ') -- this returns 'banana yes! grape yes! tomato yes! cherry'
 -- notice how this is the only operation that returns a value - all of the other operations modify the table but don't return anything
+
+
+-----------------------------------
+-- dictionaries
+-----------------------------------
+-- tables can also be used as dictionaries, or a collection of key-value pairs
+-- { key = value, ... }
+local fruitColors = { 'apple' = 'red', 'banana' = 'yellow', 'tomato' = 'red' }
+
+--- accessing
+print(fruitColors['apple']) -- 'red'
+fruitColors['banana'] = 'purple'
+
+--- adding
+fruitColors['grape'] = 'purple' -- fruitColors is now { 'apple' = 'purple', 'banana' = 'yellow', 'tomato' = 'red', 'grape' = 'purple' }
+
+--- removing
+fruitColors['grape'] = nil
+
+------------------------------------------------------------------------
+---- looping through tables
+------------------------------------------------------------------------
