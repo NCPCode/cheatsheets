@@ -161,10 +161,32 @@ print(result) -- !!!boring string!!!
 ------------------------------------------------------------------------
 ---- scope and nil
 ------------------------------------------------------------------------
--- any local variable declared in a scope cannot be used
+-- nil represents the lack of value
 -- any variable that hasn't been declared is nil
 print(new_variable == nil) -- true
--- you can also assign nil to a variable to 'undeclare '
+-- you can also assign nil to a variable to 'delete' it
+
+-- any local variable declared in a scope cannot be used outside of it
+local outer_scope = 1
+do
+  local inner_scope = 1
+end
+print(outer_scope) -- 1
+print(inner_scope) -- nil
+
+
+------------------------------------------------------------------------
+---- global variables
+------------------------------------------------------------------------
+-- they can be used in any scope
+-- they are a special variable that is not declared with 'local'
+do
+  global_variable = 1
+end
+print(global_variable) -- 1
+
+-- forgetting to use 'local' essentially means declaring a global variable, so
+-- be careful not to declare global variables when you don't mean to
 
 
 ------------------------------------------------------------------------
@@ -208,7 +230,8 @@ table.concat(favoriteFruit, ' yes! ') -- this returns 'banana yes! grape yes! to
 -----------------------------------
 -- tables can also be used as dictionaries, or a collection of key-value pairs
 -- { key = value, ... }
-local fruitColors = { 'apple' = 'red', 'banana' = 'yellow', 'tomato' = 'red' }
+local fruitColors = { apple = 'red', banana = 'yellow', tomato = 'red' }
+-- keys are basically variable names
 
 --- accessing
 print(fruitColors['apple']) -- 'red'
@@ -220,6 +243,26 @@ fruitColors['grape'] = 'purple' -- fruitColors is now { 'apple' = 'purple', 'ban
 --- removing
 fruitColors['grape'] = nil
 
+-- lua arrays are really just dictionaries with numbered indexes, so these are the same:
+{'a', 'b', 'c'}
+{[1] = 'a', [2] = 'b', [3] = 'c'}
+-- those square brackets are necessary because a number is not a valid variable name
+
 ------------------------------------------------------------------------
 ---- looping through tables
 ------------------------------------------------------------------------
+--- use ipairs for arrays
+-- ipairs goes through every item in the table and assigns i to its index and v to its value
+-- for i, v in ipairs(table) do
+for i, v in ipairs({'a', 'b', 'c'}) do
+  print(i, v) -- 1 'a'   THEN   2 'b'   THEN   3 'c'
+end
+-- i and v are just variables, so you can call them anything
+
+--- use pairs for dictionaries
+-- pairs is like ipairs but it does not guarantee an order
+for k, v in pairs({'a' = 'apple', 'b' = 'bear', 'c' = 'coral'}) do
+  print(k, v) -- a apple   THEN   b bear   THEN   c coral
+end
+
+-- pairs is really ipairs but because arrays have numbered keys it has a set order
