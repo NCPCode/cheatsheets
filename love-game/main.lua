@@ -1,74 +1,78 @@
-function checkCollision(x1, y1, w1, h1, x2, y2, w2, h2)
-  return x1 < x2 + w2 and
-         x2 < x1 + w1 and
-         y1 < y2 + h2 and
-         y2 < y1 + h1
+function checkCollision(coords1, size1, coords2, size2)
+  return coords1[1] < coords2[1] + size2[1] and
+          coords2[1] < coords1[1] + size1[1] and
+          coords1[2] < coords2[2] + size2[2] and
+          coords2[2] < coords1[2] + size1[2]
 end
 
 function reset()
-  if iteration and iteration > highestScore then
+  if iteration > highestScore then
     highestScore = iteration
   end
 
-  playerCoordinates = { x = 200, y = 350 }
+  playerCoords = {DEFAULT_PLAYER_COORDS[1], DEFAULT_PLAYER_COORDS[2]}
   rain = {}
   iteration = 0
 end
 
-
 function love.load()
-  PLAYER_SIZE = 10
-  RAIN_SIZE = 20
-  RAIN_FREQUENCY = 100
+  PLAYER_SIZE = {10, 10}
+  RAIN_SIZE = {15, 15}
+  RAIN_FREQUENCY = 50
+  RAIN_SPEED = .5
+  PLAYER_SPEED = .4
+  SCREEN_SIZE = {400, 400}
+  DEFAULT_PLAYER_COORDS = {SCREEN_SIZE[1] / 2, SCREEN_SIZE[2] - 50}
+  CURRENT_SCORE_COORDS = {10, SCREEN_SIZE[2] - 30}
+  HIGH_SCORE_COORDS = {10, SCREEN_SIZE[2] - 20}
 
   highestScore = 0
-  reset()
+  iteration = 0
+  playerCoords = {DEFAULT_PLAYER_COORDS[1], DEFAULT_PLAYER_COORDS[2]}
+  rain = {}
 end
 
 function love.update()
   if (iteration % RAIN_FREQUENCY == 0) then
-    rain[#rain + 1] = { x = love.math.random(-RAIN_SIZE, 400), y = 0 }
+    rain[#rain + 1] = {love.math.random(-RAIN_SIZE[1], 400), 0}
   end
 
-  -- for i = 1, #rain do
-  --   v[i]['y'] = v[i]['y'] + 1
+  for i = #rain, 1, -1 do
+    rain[i][2] = rain[i][2] + RAIN_SPEED
 
-  --   if v[i]['y'] > 400 then
-  --     v[i] = nil
-  --   end
-  -- end
-
-  for i, v in pairs(rain) do
-    v['y'] = v['y'] + 1
-
-    if v['y'] > 400 then
+    if rain[i][2] > DEFAULT_PLAYER_COORDS[2] + PLAYER_SIZE[2] - RAIN_SIZE[2] then
       table.remove(rain, i)
-    end
-
-    if checkCollision(
-      v['x'], v['y'], RAIN_SIZE, RAIN_SIZE,
-      playerCoordinates['x'], playerCoordinates['y'], PLAYER_SIZE, PLAYER_SIZE
+    elseif checkCollision(
+      rain[i], RAIN_SIZE,
+      playerCoords, PLAYER_SIZE
     ) then
       reset()
+      break
     end
   end
 
-  if love.keyboard.isDown('a') and playerCoordinates['x'] >= 0 then
-    playerCoordinates['x'] = playerCoordinates['x'] - 1
-  elseif love.keyboard.isDown('d') and playerCoordinates['x'] < 390 then
-    playerCoordinates['x'] = playerCoordinates['x'] + 1
+  if love.keyboard.isDown('a') then
+    playerCoords[1] = playerCoords[1] - PLAYER_SPEED
+  elseif love.keyboard.isDown('d') then
+    playerCoords[1] = playerCoords[1] + PLAYER_SPEED
+  end
+
+  if playerCoords[1] < 0 then
+    playerCoords[1] = 0
+  elseif playerCoords[1] + PLAYER_SIZE[1] > SCREEN_SIZE[1] then
+    playerCoords[1] = SCREEN_SIZE[1] - PLAYER_SIZE[1]
   end
 
   iteration = iteration + 1
 end
 
 function love.draw()
-  love.graphics.rectangle('fill', playerCoordinates['x'], playerCoordinates['y'], PLAYER_SIZE, PLAYER_SIZE)
+  love.graphics.rectangle('fill', playerCoords[1], playerCoords[2], PLAYER_SIZE[1], PLAYER_SIZE[2])
 
   for i, v in pairs(rain) do
-    love.graphics.rectangle('fill', v['x'], v['y'], RAIN_SIZE, RAIN_SIZE)
+    love.graphics.rectangle('fill', v[1], v[2], RAIN_SIZE[1], RAIN_SIZE[2])
   end
 
-  love.graphics.print(iteration, 0, 0)
-  love.graphics.print(highestScore, 0, 375)
+  love.graphics.print(iteration, CURRENT_SCORE_COORDS[1], CURRENT_SCORE_COORDS[2])
+  love.graphics.print(highestScore, HIGH_SCORE_COORDS[1], HIGH_SCORE_COORDS[2])
 end
