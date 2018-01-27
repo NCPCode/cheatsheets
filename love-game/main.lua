@@ -25,6 +25,8 @@ function love.load()
   DEFAULT_PLAYER_COORDS = {SCREEN_SIZE[1] / 2, SCREEN_SIZE[2] - 50}
   CURRENT_SCORE_COORDS = {10, SCREEN_SIZE[2] - 30}
   HIGH_SCORE_COORDS = {10, SCREEN_SIZE[2] - 20}
+  LEFT_KEY = 'a'
+  RIGHT_KEY = 'd'
 
   highestScore = 0
   iteration = 0
@@ -34,7 +36,7 @@ end
 
 function love.update()
   if (iteration % RAIN_FREQUENCY == 0) then
-    rain[#rain + 1] = {love.math.random(-RAIN_SIZE[1], 400), 0}
+    rain[#rain + 1] = {love.math.random(-RAIN_SIZE[1], SCREEN_SIZE[1]), 0}
   end
 
   for i = #rain, 1, -1 do
@@ -51,9 +53,9 @@ function love.update()
     end
   end
 
-  if love.keyboard.isDown('a') then
+  if love.keyboard.isDown(LEFT_KEY) then
     playerCoords[1] = playerCoords[1] - PLAYER_SPEED
-  elseif love.keyboard.isDown('d') then
+  elseif love.keyboard.isDown(RIGHT_KEY) then
     playerCoords[1] = playerCoords[1] + PLAYER_SPEED
   end
 
